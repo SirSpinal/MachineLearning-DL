@@ -1,7 +1,12 @@
 set(PROJECT_SOURCES
     "main.cpp"
 
+    "DL/ActFunc/ActFunc.cpp"
+    "DL/Batch.cpp"
+    "DL/Cost.cpp"
     "DL/Model.cpp"
+    "DL/ParamMatrix.cpp"
+    "DL/Propagation.cpp"
 )
 
 add_executable(PROJECT_EXE ${PROJECT_SOURCES})
