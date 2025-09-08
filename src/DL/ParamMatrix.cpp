@@ -2,42 +2,66 @@
 
 using namespace ml;
 
-ParamMatrix::ParamMatrix(float* data, size_t inputCount, size_t outputCount, ActFunc func) noexcept
-    : inputCount(inputCount), outputCount(outputCount), data(data), rowCount(inputCount + 1), dataSize(rowCount * outputCount), func(func) {}
+ParamMatrix::ParamMatrix(float* data, size_t inputCount, size_t outputCount, ActFunc func) noexcept { set(data, inputCount, outputCount, func); }
 
 ParamMatrix& ParamMatrix::update(const Batch& input, const Batch& output, const Batch& dOutput, float learningRate)
 {
-    float* updatedWeights = new float[dataSize](); // Initialize to zero
+    actFuncPtr dActFunc = activation::getDerivActFunc(func);
 
+    // Derivative of matrix parameters(this->data)
+    float* gradients = new float[dataSize](); // Initialize to zero
+
+    // Iterate through vectors in batches
     for (size_t i = 0; i < input.vectorCount(); i++)
     {
         const float* inputRow = input[i];
         const float* outputRow = output[i];
         const float* dOutputRow = dOutput[i];
 
+        // Iterate through rows in matrix
         for (size_t j = 0; j < outputCount; j++)
         {
             const float dOutputNode = dOutputRow[j];
             if (dOutputNode == 0.0f) continue;
 
             const float* matrixRow = at(j);
-            float* updatedWeightsRow = updatedWeights + (j * rowCount);
+            float* gradientRow = gradients + (j * rowCount);
+            const float dFunc = dActFunc(outputRow[j]);
 
+            const float commonDerivative = dOutputNode * dFunc;
+
+            // Iterate through parameters in rows
             size_t k = 0;
             for (; k < inputCount; k++)
             {
-                updatedWeightsRow[k] += matrixRow[k] - learningRate * dOutputNode * inputRow[k];
+                // total_weight_gradient += weight  - learning_rate * d_output * d_function * activation
+                gradientRow[k] += matrixRow[k] - learningRate * commonDerivative * inputRow[k];
             }
-            updatedWeightsRow[k] += -learningRate * dOutputNode; // Bias
+            // total_bias_gradient += bias  - learning_rate * d_output * d_function
+            gradientRow[k] += -learningRate * commonDerivative; // Bias
         }
     }
 
+    // Sets new parameters to the mean of gradients.
     for (size_t i = 0; i < dataSize; i++)
     {
-        data[i] = updatedWeights[i] / static_cast<float>(input.vectorCount());
+        // Division because we use the average gradient, not the total.
+        data[i] = gradients[i] / static_cast<float>(input.vectorCount());
     }
 
-    delete[] updatedWeights;
+    delete[] gradients;
+
+    return *this;
+}
+
+ParamMatrix& ParamMatrix::set(float* data, size_t inputCount, size_t outputCount, ActFunc func) noexcept
+{
+    this->data;
+    this->inputCount = inputCount;
+    this->outputCount = outputCount;
+    this->rowCount = inputCount + 1;
+    this->dataSize = rowCount * outputCount;
+    this->func = func;
 
     return *this;
 }

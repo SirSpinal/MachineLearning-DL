@@ -4,3 +4,5 @@ out/
 
 # Code editor data
 .vscode/
+
+*.exe
