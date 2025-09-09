@@ -56,7 +56,7 @@ ParamMatrix& ParamMatrix::update(const Batch& input, const Batch& output, const 
 
 ParamMatrix& ParamMatrix::set(float* data, size_t inputCount, size_t outputCount, ActFunc func) noexcept
 {
-    this->data;
+    this->data = data;
     this->inputCount = inputCount;
     this->outputCount = outputCount;
     this->rowCount = inputCount + 1;

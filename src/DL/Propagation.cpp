@@ -1,10 +1,15 @@
 #include "DL/Propagation.h"
 
+#include <cassert>
+#include <iostream>
+
 using namespace ml;
 using namespace ml::propagation;
 
 fVector  ml::propagation::forward(const ParamMatrix& matrix, const fVector& input)
 {
+    assert(matrix.inputCount == input.size());
+
     actFuncPtr actFunc = activation::getActFunc(matrix.func);
 
     fVector output(matrix.outputCount, 0.0f);
@@ -29,6 +34,8 @@ fVector  ml::propagation::forward(const ParamMatrix& matrix, const fVector& inpu
 
 Batch ml::propagation::forward(const ParamMatrix& matrix, const Batch& input)
 {
+    assert(matrix.inputCount == input.vectorSize());
+
     actFuncPtr actFunc = activation::getActFunc(matrix.func);
     Batch output(input.vectorCount(), matrix.outputCount);
 
@@ -41,7 +48,7 @@ Batch ml::propagation::forward(const ParamMatrix& matrix, const Batch& input)
         {
             const float* matrixRow = matrix[j];
             float& outputNode = outputRow[j];
-        
+
             size_t k = 0;
             for (; k < matrix.inputCount; k++)
             {
@@ -58,6 +65,10 @@ Batch ml::propagation::forward(const ParamMatrix& matrix, const Batch& input)
 
 Batch ml::propagation::backward(const ParamMatrix& matrix, const Batch& output, const Batch& dOutput)
 {
+    assert(matrix.outputCount == output.vectorSize());
+    assert(matrix.outputCount == dOutput.vectorSize());
+    assert(output.vectorCount() == dOutput.vectorCount());
+
     actFuncPtr derivActFunc = activation::getDerivActFunc(matrix.func);
 
     Batch dInput(dOutput.vectorCount(), matrix.inputCount);
