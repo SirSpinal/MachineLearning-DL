@@ -4,6 +4,8 @@ set(PROJECT_SOURCES
     "DL/ActFunc/ActFunc.cpp"
     "DL/Batch.cpp"
     "DL/Cost.cpp"
+    "DL/InitFunc/ActInit.cpp"
+    "DL/InitFunc/Functions.cpp"
     "DL/Model.cpp"
     "DL/ParamMatrix.cpp"
     "DL/Propagation.cpp"
