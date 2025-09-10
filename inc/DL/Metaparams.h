@@ -25,6 +25,8 @@ namespace ml
         Metaparams();
         // `func.size()` must be the same as `layers.size() - 1`.
         Metaparams(std::initializer_list<size_t> layers, std::initializer_list<ActFunc> func);
+        Metaparams(const Metaparams& other);
+        Metaparams(Metaparams&& other) noexcept;
 
         size_t layerCount() const noexcept;
         size_t matrixCount() const noexcept;
@@ -33,6 +35,12 @@ namespace ml
         size_t layers(size_t layerIndex) const noexcept;
         // `matrixIndex` must b e under matrix count.
         ActFunc act(size_t matrixIndex) const noexcept;
+
+        Metaparams& copy(const Metaparams& other);
+        Metaparams& move(Metaparams&& other) noexcept;
+
+        Metaparams& operator=(const Metaparams& other);
+        Metaparams& operator=(Metaparams&& other) noexcept;
     };
 
 } // namespace ml
