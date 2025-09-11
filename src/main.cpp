@@ -2,18 +2,23 @@
 
 #include "DL/Model.h"
 
+#include "util/Print.h"
 #include "util/PrintModel.h"
 
 int main()
 {
     ml::BasicModel x(
         ml::Metaparams(
-            {2, 4, 3, 1},
-            {ml::ActFunc::ReLU, ml::ActFunc::ReLU, ml::ActFunc::None}
+            {2, 3, 1},
+            {ml::ActFunc::ReLU, ml::ActFunc::None}
         )
     );
 
     ut::printBasicModelData(x);
+
+    std::vector<float> output = x.forward({1.0f, 1.0f});
+
+    ut::printArray(output.data(), output.size());
 
     return 0;
 }

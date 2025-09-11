@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "DL/InitFunc/ActInit.h"
+#include "DL/Propagation.h"
 
 using namespace ml;
 
@@ -23,7 +24,7 @@ BasicModel::BasicModel(const Metaparams& metaparams) : _metaparams(metaparams)
         const size_t rowSize = inpCount + 1;
 
         const size_t matrixSize = rowSize * outCount;
-        const ActFunc actFunc = metaparams.act(i);
+        const ActFunc actFunc = _metaparams.act(i);
         initFuncPtr initFunction = init::getInitFunc(actFunc);
 
         for (size_t j = 0; j < matrixSize; j++)
@@ -43,6 +44,30 @@ BasicModel::BasicModel(const Metaparams& metaparams) : _metaparams(metaparams)
 
         matrixIndex += matrixSize;
     }
+}
+
+std::vector<float> BasicModel::forward(const std::vector<float>& input) const
+{
+    std::vector<float> current = input;
+
+    for (size_t i = 0, matrixIndex = 0; i < _metaparams.matrixCount(); i++)
+    {
+        const size_t inpCount = _metaparams.layers(i);
+        const size_t outCount = _metaparams.layers(i + 1);
+        const size_t rowSize = inpCount + 1;
+
+        const size_t matrixSize = rowSize * outCount;
+        const ActFunc actFunc = _metaparams.act(i);
+        float* matrixData = &(_parameters[matrixIndex]);
+
+        const ParamMatrix matrix(matrixData, inpCount, outCount, actFunc);
+
+        current = propagation::forward(matrix, current);
+
+        matrixIndex += matrixSize;
+    }
+
+    return current;
 }
 
 float* BasicModel::parametersData() const { return _parameters.get(); }
