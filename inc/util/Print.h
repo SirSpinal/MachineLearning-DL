@@ -20,7 +20,7 @@ namespace ut
         std::cout << '\n';
         for (size_t i = 0; i < out; i++)
         {
-            const T* dataRow = data + (i * inp);
+            const T* dataRow = data + (i * (inp + 1));
 
             size_t j = 0;
             for (; j < inp; j++)

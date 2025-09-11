@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DL/InitFunc/Functions.h"
-#include "DL/ActFunc/ActFunc.h";
+#include "DL/ActFunc/ActFunc.h"
 
 namespace ml
 {

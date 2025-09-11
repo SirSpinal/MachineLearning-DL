@@ -7,9 +7,7 @@ namespace ml
 {
     namespace propagation
     {
-        using fVector = std::vector<float>;
-
-        fVector forward(const ParamMatrix& matrix, const fVector& input);
+        std::vector<float> forward(const ParamMatrix& matrix, const std::vector<float>& input);
         Batch forward(const ParamMatrix& matrix, const Batch& input);
         Batch backward(const ParamMatrix& matrix, const Batch& output, const Batch& dOutput);
 

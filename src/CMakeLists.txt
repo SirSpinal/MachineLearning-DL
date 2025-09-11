@@ -6,9 +6,12 @@ set(PROJECT_SOURCES
     "DL/Cost.cpp"
     "DL/InitFunc/ActInit.cpp"
     "DL/InitFunc/Functions.cpp"
-    "DL/Model.cpp"
+    "DL/Metaparams.cpp"
+    "DL/MLModel/BasicModel.cpp"
     "DL/ParamMatrix.cpp"
     "DL/Propagation.cpp"
+    
+    "util/PrintModel.cpp"
 )
 
 add_executable(PROJECT_EXE ${PROJECT_SOURCES})

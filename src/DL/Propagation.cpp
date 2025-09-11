@@ -6,13 +6,13 @@
 using namespace ml;
 using namespace ml::propagation;
 
-fVector  ml::propagation::forward(const ParamMatrix& matrix, const fVector& input)
+std::vector<float>  ml::propagation::forward(const ParamMatrix& matrix, const std::vector<float>& input)
 {
     assert(matrix.inputCount == input.size());
 
     actFuncPtr actFunc = activation::getActFunc(matrix.func);
 
-    fVector output(matrix.outputCount, 0.0f);
+    std::vector<float> output(matrix.outputCount, 0.0f);
 
     for (size_t i = 0; i < matrix.outputCount; i++)
     {
