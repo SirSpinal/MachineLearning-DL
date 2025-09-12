@@ -16,9 +16,19 @@ int main()
 
     ut::printBasicModelData(x);
 
-    std::vector<float> output = x.forward({1.0f, 1.0f});
+    ml::Batch input = {
+        {0.0f, 0.0f},
+        {1.0f, 1.0f},
+    };
 
-    ut::printArray(output.data(), output.size());
+    // auto result = x._forwardpropagate(input);
+
+    // for (size_t i = 0; i < result.size(); i++)
+    // {
+    //     ml::Batch& b = result[i];
+    //     std::cout << "\nResult [" << i << "]: " << b.vectorSize();
+    //     ut::printMatrix(b.data(), b.vectorSize(), b.vectorCount());
+    // }
 
     return 0;
 }

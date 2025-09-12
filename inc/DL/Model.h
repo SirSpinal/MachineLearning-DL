@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "DL/Cost.h"
+#include "DL/Batch.h"
 #include "DL/Metaparams.h"
 
 namespace ml
@@ -17,13 +18,22 @@ namespace ml
         std::unique_ptr<float[]> _parameters = {};
         size_t _parametersSize = 0;
         Metaparams _metaparams = {};
-        
-    public:
-        BasicModel();
-        BasicModel(const Metaparams& metaparams);
 
         /*
-            @brief Does a full forward propagation with the inpurs. Uses the model's parameters(weights/biases) for the forward propagation.
+            @brief Gives all the outputs of a forward prop from every layer.
+
+            @param inputs The inputs used in the forward propagation.
+
+            @return A vector containing the outputs. In the order of first layer to last layer.
+        */
+        std::vector<Batch> _forwardpropagate(const Batch& inputs) const;
+        
+        public:
+        BasicModel();
+        BasicModel(const Metaparams& metaparams);
+        
+        /*
+            @brief Does a full forward propagation with the inputs. Uses the model's parameters(weights/biases) for the forward propagation.
 
             @param inputs The inputs used in the forward propagation.
 

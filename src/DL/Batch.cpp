@@ -5,6 +5,7 @@
 using namespace ml;
 
 #pragma region Constructors
+Batch::Batch() {}
 ml::Batch::Batch(size_t count, size_t size, float fillValue)
 : _data(std::make_unique<float[]>(count * size)), _count(count), _size(size)
 {

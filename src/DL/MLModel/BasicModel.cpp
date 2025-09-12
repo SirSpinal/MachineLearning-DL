@@ -38,6 +38,7 @@ BasicModel::BasicModel(const Metaparams& metaparams) : _metaparams(metaparams)
             }
             else
             {
+                //param = 1.0f;
                 param = initFunction(inpCount, outCount);
             }
         }
@@ -45,6 +46,41 @@ BasicModel::BasicModel(const Metaparams& metaparams) : _metaparams(metaparams)
         matrixIndex += matrixSize;
     }
 }
+
+#pragma region Methods
+
+
+
+
+#pragma region _private
+std::vector<Batch> BasicModel::_forwardpropagate(const Batch& inputs) const
+{
+    std::vector<Batch> inputTensor(_metaparams.layerCount());
+    Batch current = inputs;
+
+    size_t i = 0;
+    for (size_t matrixIndex = 0; i < _metaparams.matrixCount(); i++)
+    {
+        const size_t inpCount = _metaparams.layers(i);
+        const size_t outCount = _metaparams.layers(i + 1);
+        const size_t rowSize = inpCount + 1;
+
+        const size_t matrixSize = rowSize * outCount;
+        const ActFunc actFunc = _metaparams.act(i);
+        float* matrixData = &(_parameters[matrixIndex]);
+
+        const ParamMatrix matrix(matrixData, inpCount, outCount, actFunc);
+
+        inputTensor[i] = current;
+        current = propagation::forward(matrix, current);
+
+        matrixIndex += matrixSize;
+    }
+    inputTensor[i] = current;
+
+    return inputTensor;
+}
+#pragma endregion
 
 std::vector<float> BasicModel::forward(const std::vector<float>& input) const
 {
@@ -73,4 +109,4 @@ std::vector<float> BasicModel::forward(const std::vector<float>& input) const
 float* BasicModel::parametersData() const { return _parameters.get(); }
 size_t BasicModel::parametersSize() const noexcept { return _parametersSize; }
 Metaparams BasicModel::metaparameters() const { return _metaparams; }
-
+#pragma endregion

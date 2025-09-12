@@ -16,6 +16,7 @@ namespace ml
         size_t _size = 0; // Size of data vectors
 
     public:
+        Batch();
         Batch(size_t count, size_t size, float fillValue=0.0f);
         Batch(float* data, size_t count, size_t size);
         Batch(std::unique_ptr<float[]>& data, size_t count, size_t size);
