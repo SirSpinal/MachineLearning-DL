@@ -9,7 +9,7 @@ Batch::Batch() {}
 ml::Batch::Batch(size_t count, size_t size, float fillValue)
 : _data(std::make_unique<float[]>(count * size)), _count(count), _size(size)
 {
-    for (size_t i = 0; i < size; i++)
+    for (size_t i = 0; i < _size; i++)
     {
         _data[i] = fillValue;
     }

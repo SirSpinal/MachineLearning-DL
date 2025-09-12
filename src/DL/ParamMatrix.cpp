@@ -1,5 +1,7 @@
 #include "DL/ParamMatrix.h"
 
+#include <cassert>
+
 using namespace ml;
 
 ParamMatrix::ParamMatrix(float* data, size_t inputCount, size_t outputCount, ActFunc func) noexcept { set(data, inputCount, outputCount, func); }
@@ -66,8 +68,16 @@ ParamMatrix& ParamMatrix::set(float* data, size_t inputCount, size_t outputCount
     return *this;
 }
 
-float* ParamMatrix::at(size_t row) { return data + (row * rowCount); }
-const float* ParamMatrix::at(size_t row) const { return data + (row * rowCount); }
+float* ParamMatrix::at(size_t row)
+{
+    assert(row < outputCount);
+    return data + (row * rowCount);
+}
+const float* ParamMatrix::at(size_t row) const
+{
+    assert(row < outputCount);
+    return data + (row * rowCount);
+}
 
 float* ParamMatrix::operator[](size_t row) noexcept { return at(row); }
 const float* ParamMatrix::operator[](size_t row) const noexcept { return at(row); }

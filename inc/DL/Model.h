@@ -41,6 +41,8 @@ namespace ml
         */
         std::vector<float> forward(const std::vector<float>& inputs) const;
 
+        BasicModel& update(const Batch& inputs, const Batch& targets, costFuncPtr dCostFunc, float learningRate=0.01f);
+
         // Gives an array that directly holds the model's parameters(weights and biases)
         float* parametersData() const;
         // Gives the total amount of all parameters(weights and biases)
