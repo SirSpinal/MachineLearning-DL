@@ -6,8 +6,6 @@
 
 namespace ml
 {
-    using fVector = std::vector<float>;
-
     class Batch
     {
     private:
@@ -28,9 +26,9 @@ namespace ml
         float* at(size_t vectorIndex) const noexcept;
         
         // Returns a copy of the specified vector.
-        fVector get(size_t vectorIndex) const;
+        std::vector<float> get(size_t vectorIndex) const;
         // Sets the specified vector in the batch to the provided data vector.
-        Batch& set(size_t vectorIndex, const fVector& dataVector);
+        Batch& set(size_t vectorIndex, const std::vector<float>& dataVector);
 
         // Returns the number of vectors in the batch.
         size_t vectorCount() const noexcept;

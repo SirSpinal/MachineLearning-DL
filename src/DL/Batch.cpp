@@ -48,10 +48,10 @@ float* ml::Batch::at(size_t vectorIndex) const noexcept
     return _data.get() + (vectorIndex * _size);
 }
 
-fVector ml::Batch::get(size_t vectorIndex) const
+std::vector<float> ml::Batch::get(size_t vectorIndex) const
 {
     const size_t rowStart = vectorIndex * _size;
-    fVector dataVector(_size);
+    std::vector<float> dataVector(_size);
 
     for (size_t i = 0; i < _size; i++)
     {
@@ -61,7 +61,7 @@ fVector ml::Batch::get(size_t vectorIndex) const
     return dataVector;
 }
 
-Batch& ml::Batch::set(size_t vectorIndex, const fVector& dataVector)
+Batch& ml::Batch::set(size_t vectorIndex, const std::vector<float>& dataVector)
 {
     const size_t rowStart = vectorIndex * _size;
 
